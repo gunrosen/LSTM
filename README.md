@@ -1,1 +1,3 @@
- Using tflearn for training 
+Using tflearn for training 
+LSTM
+
