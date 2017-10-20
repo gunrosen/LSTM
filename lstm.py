@@ -12,6 +12,16 @@ testCorpus = "test_tokenized_ANS.txt"
 
 sentences = []
 labels = []
+num_dim = len(w2vmodel.wv.vocab)
+
+def convert_data_to_index(string_data, wv):
+    index_data = []
+    for word in string_data:
+        if word in wv:
+            index_data.append(wv.vocab[word].index)
+    return index_data
+
+
 #Read train corpus
 for i,fileTrain in enumerate(trainCorpus):
     path = os.path.join(dirTrainCorpus, fileTrain)
@@ -28,7 +38,14 @@ trainY = labels
 
 
 
-
+# embedding matrix
+embedding_matrix = np.zeros(len(w2vmodel.wv.vocab),64)
+word_in_dict = []
+for i in range(len(w2vmodel.wv.vocab)):
+    embedding_vector = w2vmodel.wv[w2vmodel.wv.index2word[i]]
+    if embedding_vector is not None:
+        embedding_matrix[i] = embedding_vector
+        word_in_dict.extend(w2vmodel.wv.index2word[i])
 
 
 
@@ -37,7 +54,7 @@ trainY = labels
 net = tflearn.input_data([None, maxLengthSequence])
 net = tflearn.embedding(net, input_dim=10000, output_dim=64)
 net = tflearn.lstm(net, 64, dropout=0.8)
-net = tflearn.fully_connected(net, 2, activation='softmax')
+net = tflearn.fully_connected(net, 3, activation='softmax')
 net = tflearn.regression(net, optimizer='adam', learning_rate=0.001,
                          loss='categorical_crossentropy')
 
