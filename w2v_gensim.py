@@ -17,15 +17,13 @@ def pre_processline(line):
     return line
 
 for filename in filenames:
-    path = os.path.join(dir,filename)
-    f= open(path,'r',encoding="utf-8")
+    path = os.path.join(dir, filename)
+    f = open(path, 'r', encoding="utf-8")
     for line in f:
         line = line.split()
-        if len(line) >0 :
-            line  = pre_processline(line)
+        if len(line) > 0:
+            line = pre_processline(line)
             sentences.append(line)
 
-
-
-w2vModel = gensim.models.Word2Vec(sentences,min_count=5, size=64, workers=4)
+w2vModel = gensim.models.Word2Vec(sentences, min_count=5, size=64, workers=4)
 w2vModel.save("./w2vmodel")

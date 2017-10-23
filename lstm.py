@@ -23,12 +23,12 @@ def convert_data_to_index(string_data, wv):
 
 
 #Read train corpus
-for i,fileTrain in enumerate(trainCorpus):
+for i, fileTrain in enumerate(trainCorpus):
     path = os.path.join(dirTrainCorpus, fileTrain)
-    f = open(path,'r',encoding='utf-8')
+    f = open(path, 'r', encoding='utf-8')
     for line in f:
         line = line.split()
-        if len(line) >0:
+        if len(line) > 0:
             line = [w.replace(u'\ufeff', '').lower() for w in line]
             line = [w for w in line if w in w2vmodel.wv.vocab]
             sentences.append(line)
